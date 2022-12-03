@@ -2,11 +2,22 @@ from .shape import Shape
 import pygame
 
 class Rectangle(Shape):
+    """
+    Implements a rectangular shape.
 
-    def __init__(self,name,height:int,width:int,*args,**kwargs):
+    Name
+    ----------
+    height: float
+        Height of rectangle
+
+    width: float
+        Width of rectangle
+
+    """
+
+    def __init__(self,height:float,width:float,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.shape = "Rectangle"
-        self.name = name
         self.__height = height
         self.__width = width
 

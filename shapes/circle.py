@@ -2,11 +2,22 @@ from .shape import Shape
 import math
 
 class Circle(Shape):
+    """
+    Implements a circular shape.
 
-    def __init__(self,name,radius:float,*args,**kwargs):
+    Name
+    ----------
+    name: string
+        Name of circle object
+
+    radius: float
+        Radius of circle, 
+
+    """
+
+    def __init__(self,radius:float,*args,**kwargs):
         super().__init__(*args,**kwargs)
         self.shape = "Circle"
-        self.name = name
         self.__radius = radius
 
     @property
@@ -30,6 +41,14 @@ class Circle(Shape):
     @property
     def mass(self):
         return self.density * self.area
+
+    @property
+    def width(self):
+        return self.radius * 2
+        
+    @property
+    def height(self):
+        return self.radius * 2
     
     def __str__(self):
         return f'Circle {self.name}'

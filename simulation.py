@@ -2,15 +2,40 @@ import pygame
 import sys
 
 class Simulation:
+    """
+    Simulation summary
+
+    Parameters
+    ----------
+    screen_width: int
+        Name of circle object
+
+    screen_height: int
+        Name of circle object
+
+    gravity: float
+
+    shapes: list
+
+    environment: tbd
+
+    Attributes
+    -----------
+
+    background_color: tuple
+
+    """
 
     background_color = (255, 213, 128)
+    WHITE = (255,255,255)
 
     def __init__(
                 self,
                 screen_width: int,
                 screen_height: int,
                 gravity:float, 
-                shapes: list = []
+                shapes: list = [],
+                environment = None
                 ):
         pygame.init()
         pygame.display.set_caption('Environment')
@@ -21,6 +46,8 @@ class Simulation:
         self.running = True
         self.gravity = gravity
         self.shapes = shapes
+        self.environment = environment
+        self.tile_size = 50
 
     def run(self):
         while self.running:
@@ -41,6 +68,9 @@ class Simulation:
 
     def _update_screen(self):
         self.screen.fill(self.background_color)
+        if self.environment:
+            self.environment.create(self.screen,self.tile_size)
+        self._draw_grid()
         self._draw_shapes()
         pygame.display.update()
 
@@ -52,18 +82,40 @@ class Simulation:
 
     def _check_boundaries(self):
         for shape in self.shapes:
+            if shape.shape == "Circle":
+                if shape.y <= shape.radius:
+                    shape.y_vel *=-1
+                if shape.y >= (self.screen_height - shape.radius):
+                    shape.y_vel *=-1
+                if shape.x <= shape.radius:
+                    shape.x_vel *=0
+                if shape.x >= (self.screen_width - shape.radius):
+                    shape.x_vel *=0
+            elif shape.shape == "Rectangle":
+                if shape.y <= 0:
+                    shape.y_vel *=-1
+                if shape.y >= (self.screen_height - shape.height):
+                    shape.y_vel *=-1
+                if shape.x <= 0:
+                    shape.x_vel *=0
+                if shape.x >= (self.screen_width - shape.width):
+                    shape.x_vel *=0
+            else:
+                raise ValueError("Invalid Shape")
             
-            if shape.y < 20:
-                shape.y_vel = 0
-            if shape.y > (self.screen_height - 20):
-                shape.y_vel = 0
-                shape.is_falling = False
 
-            if shape.x < 20:
-                shape.x_vel = 0
-            if shape.x > (self.screen_width - 20):
-                shape.x_vel = 0
-
+    def _draw_grid(self):
+        dim = max(self.screen_height, self.screen_width)
+        grid_range = dim // self.tile_size
+        for line in range(0, grid_range):
+            pygame.draw.line(
+                self.screen, self.WHITE,
+                (0, line * self.tile_size),
+                (dim, line * self.tile_size))
+            pygame.draw.line(
+                self.screen, self.WHITE,
+                (line * self.tile_size, 0),
+                (line * self.tile_size, dim))
 
     def _draw_shapes(self):
         """Creates a drawing of the shape object(s) on the game screen

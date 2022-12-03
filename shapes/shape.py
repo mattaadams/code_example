@@ -1,9 +1,47 @@
-import pygame
 
 class Shape:
 
+    """
+    Base class for shapes; Implements base-properties 
+
+    WARNING: This class should not be used directly. Use derived classes instead!
+
+    Parameters:
+    ----------
+    x: int
+        x-coordinate of shape.
+    
+    y: int
+        y-coordinate of shape.
+
+    density: float
+        density of the shape: mass units/area
+
+    elasticity: float
+
+    charge: float
+
+    x_vel: float
+        x-component of velocity of object: 
+            positive velocity is right direction
+            negative velocity is left direction
+
+    y_vel: float
+        y-component of velocity of object: 
+            positive velocity is downward direction
+            negative velocity is upward direction
+
+    color: tuple
+
+    is_falling: bool
+
+
+    """
+
+    shapes = []
     def __init__(
                 self, 
+                name:str="Shape",
                 x:int=20, 
                 y:int=20, 
                 density:float=1.0, 
@@ -15,15 +53,19 @@ class Shape:
                 is_falling:bool = True
                 ):  
 
+        self.name = name
         self.x = x
         self.y = y
-        self.charge = charge
         self.x_vel = x_vel
         self.y_vel = y_vel
+        self.charge = charge
         self.color = color
         self.__density = density
         self.__elasticity = elasticity
         self.is_falling = is_falling
+
+        Shape.shapes.append([self.name,self.x,self.y])
+        Shape.N += 1
     
     @property
     def density(self):
@@ -58,6 +100,10 @@ class Shape:
             self.y_vel += gravity
         else:
             self.y_vel = 0
+
+    # @classmethod
+    # def locations(cls):
+    #     return cls.shapes
 
 
 
