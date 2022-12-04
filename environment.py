@@ -44,7 +44,7 @@ class Environment:
                     x = j * tile_size
                     y = i * tile_size
                     color = BLACK
-                    tile = (color, pygame.Rect((x, y),(tile_size, tile_size)))
+                    tile = (color, pygame.Rect((x,y),(tile_size,tile_size)))
                     pygame.draw.rect(screen, tile[0], tile[1])
                     self.tiles.append(tile[1])
 
