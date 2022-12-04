@@ -1,5 +1,6 @@
 from .shape import Shape
 import math
+import pygame
 
 class Circle(Shape):
     """
@@ -11,7 +12,11 @@ class Circle(Shape):
         Name of circle object
 
     radius: float
-        Radius of circle, 
+        Radius of circle
+
+    *args: Variable length argument list.
+    
+    **kwargs: Arbitrary keyword arguments.
 
     """
 

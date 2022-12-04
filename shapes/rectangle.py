@@ -1,5 +1,6 @@
 from .shape import Shape
 import pygame
+import numpy as np
 
 class Rectangle(Shape):
     """
@@ -12,6 +13,10 @@ class Rectangle(Shape):
 
     width: float
         Width of rectangle
+
+    *args: Variable length argument list.
+    
+    **kwargs: Arbitrary keyword arguments.
 
     """
 

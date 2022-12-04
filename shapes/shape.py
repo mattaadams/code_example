@@ -39,7 +39,6 @@ class Shape:
 
     """
 
-    shapes = []
     def __init__(
                 self, 
                 name:str="Shape",
@@ -64,8 +63,6 @@ class Shape:
         self.__density = density
         self.__elasticity = elasticity
         self.is_falling = is_falling
-
-        Shape.shapes.append([self.x,self.y])
     
     @property
     def density(self):
@@ -101,9 +98,6 @@ class Shape:
         else:
             self.y_vel = 0
 
-    @classmethod
-    def locations(cls):
-        return cls.shapes
 
 
 
