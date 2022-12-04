@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+WHITE = (255,255,255)
+
 class Simulation:
     """
     Simulation summary
@@ -27,7 +29,6 @@ class Simulation:
     """
 
     background_color = (255, 213, 128)
-    WHITE = (255,255,255)
 
     def __init__(
                 self,
@@ -61,6 +62,7 @@ class Simulation:
                 pygame.quit()
                 sys.exit()
         self._check_boundaries()
+        self._check_tile_collisions()
         for shape in self.shapes:
             shape.move()
             shape.fall(self.gravity)
@@ -75,10 +77,25 @@ class Simulation:
         pygame.display.update()
 
 
-    def _get_shape_positions(self):
+    def _check_shape_collisions(self):
         for shape in self.shapes:
             x,y = shape.x, shape.y
             
+    def _check_tile_collisions(self):
+        for tile in self.environment.tiles:
+            for shape in self.shapes:
+                if shape.shape == "Rectangle":
+                    if tile.colliderect(shape.x,shape.y,shape.width,shape.height):
+                        print(shape.x,shape.y)
+                        print(tile.y)
+                        if (shape.y+shape.height) >= tile.y:
+                            shape.y_vel *= -1
+                        if (shape.y+shape.height) < tile.y:
+                            shape.x_vel *= -1
+
+
+
+
 
     def _check_boundaries(self):
         for shape in self.shapes:
@@ -88,18 +105,18 @@ class Simulation:
                 if shape.y >= (self.screen_height - shape.radius):
                     shape.y_vel *=-1
                 if shape.x <= shape.radius:
-                    shape.x_vel *=0
+                    shape.x_vel *=-1
                 if shape.x >= (self.screen_width - shape.radius):
-                    shape.x_vel *=0
+                    shape.x_vel *=-1
             elif shape.shape == "Rectangle":
                 if shape.y <= 0:
                     shape.y_vel *=-1
                 if shape.y >= (self.screen_height - shape.height):
                     shape.y_vel *=-1
                 if shape.x <= 0:
-                    shape.x_vel *=0
+                    shape.x_vel *=-1
                 if shape.x >= (self.screen_width - shape.width):
-                    shape.x_vel *=0
+                    shape.x_vel *=-1
             else:
                 raise ValueError("Invalid Shape")
             
@@ -109,11 +126,11 @@ class Simulation:
         grid_range = dim // self.tile_size
         for line in range(0, grid_range):
             pygame.draw.line(
-                self.screen, self.WHITE,
+                self.screen, WHITE,
                 (0, line * self.tile_size),
                 (dim, line * self.tile_size))
             pygame.draw.line(
-                self.screen, self.WHITE,
+                self.screen, WHITE,
                 (line * self.tile_size, 0),
                 (line * self.tile_size, dim))
 

@@ -32,6 +32,7 @@ class Shape:
             negative velocity is upward direction
 
     color: tuple
+        Color of the shape
 
     is_falling: bool
 
@@ -64,8 +65,7 @@ class Shape:
         self.__elasticity = elasticity
         self.is_falling = is_falling
 
-        Shape.shapes.append([self.name,self.x,self.y])
-        Shape.N += 1
+        Shape.shapes.append([self.x,self.y])
     
     @property
     def density(self):
@@ -101,9 +101,9 @@ class Shape:
         else:
             self.y_vel = 0
 
-    # @classmethod
-    # def locations(cls):
-    #     return cls.shapes
+    @classmethod
+    def locations(cls):
+        return cls.shapes
 
 
 
