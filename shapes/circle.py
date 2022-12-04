@@ -2,6 +2,7 @@ from .shape import Shape
 import math
 import pygame
 
+
 class Circle(Shape):
     """
     Implements a circular shape.
@@ -15,13 +16,13 @@ class Circle(Shape):
         Radius of circle
 
     *args: Variable length argument list.
-    
+
     **kwargs: Arbitrary keyword arguments.
 
     """
 
-    def __init__(self,radius:float,*args,**kwargs):
-        super().__init__(*args,**kwargs)
+    def __init__(self, radius: float, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.shape = "Circle"
         self.__radius = radius
 
@@ -30,7 +31,7 @@ class Circle(Shape):
         return self.__radius
 
     @radius.setter
-    def radius(self,radius):
+    def radius(self, radius):
         if (radius <= 0):
             raise ValueError("Radius must be above 0")
         self.__radius = radius
@@ -50,11 +51,10 @@ class Circle(Shape):
     @property
     def width(self):
         return self.radius * 2
-        
+
     @property
     def height(self):
         return self.radius * 2
-    
+
     def __str__(self):
         return f'Circle {self.name}'
-
