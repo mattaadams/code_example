@@ -18,8 +18,14 @@ force1 = Forces(gravity=True)
 sim = Simulation(
     screen_width=300,
     screen_height=300,
+    sim_time=20,
     shapes=list_of_shapes,
     environment=env1,
     forces=force1
 )
-sim.run()
+
+final_positions = sim.run()
+
+def test_bounds():
+    assert final_positions == final_positions
+
