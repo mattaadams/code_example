@@ -89,18 +89,14 @@ class Shape:
         self.x += self.x_vel
         self.y += self.y_vel
 
+
     @property
     def forcefield(self):
         pass
 
-    def fall(self, gravity):
-        if self.is_falling and self.y_vel < 10:
-            self.y_vel += gravity
-        else:
-            self.y_vel = 0
-
     @property
     def vel(self):
         return np.array((self.x_vel, self.y_vel))
+
 
 

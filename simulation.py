@@ -71,7 +71,7 @@ class Simulation:
 
         N_shape_types = len(set([shape.shape for shape in self.shapes]))
         assert N_shape_types == 1, "Multiple types of shapes not currently supported."
-        
+
         grid_shape = tuple(int(i/self.tile_size)
                            for i in self.screen.get_size())
         assert (self.environment.data.shape ==
@@ -102,22 +102,14 @@ class Simulation:
     def _check_boundaries(self):
         for shape in self.shapes:
             if shape.shape == "Circle":
-                if shape.y <= shape.radius:
+                if shape.y >= (self.screen_height - shape.radius - shape.y_vel) or shape.y <= shape.radius - shape.y_vel:
                     shape.y_vel *= -1
-                if shape.y >= (self.screen_height - shape.radius):
-                    shape.y_vel *= -1
-                if shape.x <= shape.radius:
-                    shape.x_vel *= -1
-                if shape.x >= (self.screen_width - shape.radius):
+                if shape.x >= (self.screen_width - shape.radius - shape.x_vel) or shape.x <= shape.radius - shape.x_vel:
                     shape.x_vel *= -1
             elif shape.shape == "Square":
-                if shape.y <= 0:
+                if shape.y >= (self.screen_height - shape.size - shape.y_vel) or shape.y <= -shape.y_vel:
                     shape.y_vel *= -1
-                if shape.y >= (self.screen_height - shape.size):
-                    shape.y_vel *= -1
-                if shape.x <= 0:
-                    shape.x_vel *= -1
-                if shape.x >= (self.screen_width - shape.size):
+                if shape.x >= (self.screen_width - shape.size - shape.x_vel) or shape.x <= -shape.x_vel:
                     shape.x_vel *= -1
 
     def _draw_grid(self):

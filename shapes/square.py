@@ -46,5 +46,12 @@ class Square(Shape):
     def mass(self):
         return self.density * self.area
 
+    @property
+    def center(self):
+        # PyGame uses topleft corner as x,y coordinates
+        center_x = self.x + (self.__size / 2)
+        center_y = self.y + (self.__size / 2)
+        return np.array((center_x, center_y))
+
     def __str__(self):
         return f'size {self.__size} Square {self.name}'
