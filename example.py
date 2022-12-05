@@ -5,20 +5,19 @@ from shapes.square import Square
 from shapes.shape import Shape
 from environment import Environment
 from forces import Forces
+
 square1 = Square(10,x=50,x_vel=-5,y_vel=5,color=(0,255,255))
-
-square2 = Square(40,x=100,x_vel=2,y_vel=4,color=(255,0,0))
-
+square2 = Square(10,x=60,x_vel=2,y_vel=4,color=(255,0,0))
 square3 = Square(50,x=100,y=200,x_vel=4,y_vel=4,color=(150,155,120))
 
-circle1 = Circle(10.0, x_vel=-4, y_vel=1, x=200)
-circle2 = Circle(10.0, x=150, x_vel=4, y_vel=1, color=(120, 120, 120))
-circle3 = Circle(15.0, x=100, y=200,x_vel=4, y_vel=1, color=(120, 250, 20))
-circle4 = Circle(20.0, x=250, y=200,x_vel=4, y_vel=4, color=(250, 20, 120))
+circle1 = Circle(10.0, x_vel=0, y_vel=1, x=200)
+circle2 = Circle(10.0, x=150, x_vel=0, y_vel=1, color=(120, 120, 120))
+circle3 = Circle(15.0, x=100, y=150,x_vel=0, y_vel=1, color=(120, 250, 20))
+circle4 = Circle(20.0, x=250, y=150,x_vel=0, y_vel=4, color=(250, 20, 120))
 
 
 # list_of_shapes = [circle1,circle2,circle3, circle4]
-list_of_shapes = [square1,square2,square3]
+list_of_shapes = [square1,square2]
 env_data = np.zeros((6, 6))
 env_data[4] = 1
 env1 = Environment(env_data)
@@ -32,4 +31,5 @@ sim = Simulation(
     forces=force1
 )
 sim.run()
+
 

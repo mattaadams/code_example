@@ -76,8 +76,8 @@ class Simulation:
                            for i in self.screen.get_size())
         assert (self.environment.data.shape ==
                 grid_shape), f"Environment size should be {grid_shape}"
-
-        # Check if outside boundary or if any objects overlap at IC.
+        assert (self.forces.collision_forces(self.shapes) == 0), "Initial Object positions cannot intersect"
+        # Check if outside boundary or if any objects overlap surface at IC.
         print("Checking complete.")
 
     def _check_events(self):
@@ -101,16 +101,19 @@ class Simulation:
 
     def _check_boundaries(self):
         for shape in self.shapes:
+            dy = shape.y + shape.y_vel
+            dx = shape.x + shape.x_vel
             if shape.shape == "Circle":
-                if shape.y >= (self.screen_height - shape.radius - shape.y_vel) or shape.y <= shape.radius - shape.y_vel:
+                if dy >= (self.screen_height - shape.radius) or dy <= shape.radius:
                     shape.y_vel *= -1
-                if shape.x >= (self.screen_width - shape.radius - shape.x_vel) or shape.x <= shape.radius - shape.x_vel:
+                if dx >= (self.screen_width - shape.radius) or dx <= shape.radius:
                     shape.x_vel *= -1
             elif shape.shape == "Square":
-                if shape.y >= (self.screen_height - shape.size - shape.y_vel) or shape.y <= -shape.y_vel:
+                if dy >= (self.screen_height - shape.size) or dy <= 0:
                     shape.y_vel *= -1
-                if shape.x >= (self.screen_width - shape.size - shape.x_vel) or shape.x <= -shape.x_vel:
+                if dx >= (self.screen_width - shape.size) or dx <= 0:
                     shape.x_vel *= -1
+
 
     def _draw_grid(self):
         dim = max(self.screen_height, self.screen_width)

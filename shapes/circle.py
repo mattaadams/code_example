@@ -2,7 +2,7 @@ from .shape import Shape
 import math
 import pygame
 import numpy as np
-
+import itertools
 class Circle(Shape):
     """
     Implements a circular shape.
@@ -19,7 +19,7 @@ class Circle(Shape):
 
     **kwargs: Arbitrary keyword arguments.
 
-    """
+    """ 
 
     def __init__(self, radius: float, *args, **kwargs):
         super().__init__(*args, **kwargs)
