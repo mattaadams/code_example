@@ -5,7 +5,7 @@ import numpy as np
 class Shape:
 
     """
-    Base class for shapes; Implements base-properties 
+    Base class for shapes; Implements base-properties
 
     WARNING: This class should not be used directly. Use derived classes instead!
 
@@ -21,12 +21,12 @@ class Shape:
         density of the shape: mass units/area
 
     x_vel: float
-        x-component of velocity of object: 
+        x-component of velocity of object:
             positive velocity is right direction
             negative velocity is left direction
 
     y_vel: float
-        y-component of velocity of object: 
+        y-component of velocity of object:
             positive velocity is downward direction
             negative velocity is upward direction
 
@@ -69,17 +69,14 @@ class Shape:
             raise ValueError("Density must be above 0")
         self._density = density
 
-
     def move(self):
         self.x += self.x_vel
         self.y += self.y_vel
 
         if self.y_vel < 0:
             self.is_bouncing = True
-        return (self.x,self.y)
+        return (self.x, self.y)
 
     @property
     def vel(self):
         return np.array((self.x_vel, self.y_vel))
-
-

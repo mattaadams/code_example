@@ -7,6 +7,7 @@ import time
 
 WHITE = (255, 255, 255)
 
+
 class Simulation:
     """
     Simulation summary
@@ -30,7 +31,7 @@ class Simulation:
     Attributes
     -----------
 
-    background_color: tuple 
+    background_color: tuple
         Used to specify the background color in RGB format (R,G,B)
         Each value must be between 0-255.
 
@@ -68,26 +69,24 @@ class Simulation:
     def run(self):
         try:
             while self.running:
-                    self.clock.tick(20)
-                    d = self._check_events()
-                    self._update_screen()
-        except:
+                self.clock.tick(20)
+                d = self._check_events()
+                self._update_screen()
+        except BaseException:
             self.running = False
         return [shape.center for shape in self.shapes]
-
-
 
     def _check_time(self):
         elapsed_time = time.time() - self.start_time
         if elapsed_time >= self.sim_time:
             return True
-        
+
     def _check_initial_conditions(self):
         print('Checking Initial Conditions...')
         N_shape_types = len(set([shape.shape for shape in self.shapes]))
         assert N_shape_types == 1, "Multiple types of shapes not currently supported."
 
-        grid_shape = tuple(int(i/self.tile_size)
+        grid_shape = tuple(int(i / self.tile_size)
                            for i in self.screen.get_size())
         assert (self.environment.data.shape ==
                 grid_shape), f"Environment size should be {grid_shape}"
@@ -103,8 +102,8 @@ class Simulation:
             shape.move()
         for event in pygame.event.get():
             if event.type == pygame.QUIT or self._check_time():
-                    pygame.display.quit()
-                    pygame.quit()
+                pygame.display.quit()
+                pygame.quit()
         self._check_boundaries()
         self.forces.update_velocities(self.shapes, self.environment.tiles)
 
@@ -121,13 +120,15 @@ class Simulation:
             dy = shape.y + shape.y_vel
             dx = shape.x + shape.x_vel
             if shape.shape == "Circle":
-                if dy >= (self.screen_height - shape.radius) or dy <= shape.radius:
+                if dy >= (self.screen_height -
+                          shape.radius) or dy <= shape.radius:
                     shape.y_vel *= -1
                     shape.is_bouncing = False
                     if shape.y_vel != 0:
                         shape.is_bouncing = True
 
-                if dx >= (self.screen_width - shape.radius) or dx <= shape.radius:
+                if dx >= (self.screen_width -
+                          shape.radius) or dx <= shape.radius:
                     shape.x_vel *= -1
             elif shape.shape == "Square":
                 if dy >= (self.screen_height - shape.size) or dy <= 0:

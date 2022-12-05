@@ -5,10 +5,9 @@ from environment import Environment
 from forces import Forces
 
 
-
 circles = []
-circles.append(Circle(10.0,x=50, y=200, x_vel=0,y_vel=3,color=(0,100,0)))
-circles.append(Circle(10.0,x=50, y=100, x_vel=0,y_vel=3,color=(200,0,0)))
+circles.append(Circle(10.0, x=50, y=200, x_vel=0, y_vel=3, color=(0, 100, 0)))
+circles.append(Circle(10.0, x=50, y=100, x_vel=0, y_vel=3, color=(200, 0, 0)))
 
 
 list_of_shapes = circles

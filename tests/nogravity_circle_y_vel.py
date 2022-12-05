@@ -7,7 +7,8 @@ from forces import Forces
 circles = []
 
 for i in range(4):
-    circles.append(Circle(10.0,x=50*(i+1), y=250, x_vel=0,y_vel=3*(i+1),color=(0,100,0)))
+    circles.append(Circle(10.0, x=50 * (i + 1), y=250, x_vel=0,
+                   y_vel=3 * (i + 1), color=(0, 100, 0)))
 
 list_of_shapes = circles
 env_data = np.zeros((6, 6))
