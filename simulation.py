@@ -76,7 +76,9 @@ class Simulation:
                            for i in self.screen.get_size())
         assert (self.environment.data.shape ==
                 grid_shape), f"Environment size should be {grid_shape}"
-        assert (self.forces.collision_forces(self.shapes) == 0), "Initial Object positions cannot intersect"
+
+        assert (self.forces.collision_forces(self.shapes) ==
+                0), "Initial Object positions cannot intersect"
         # Check if outside boundary or if any objects overlap surface at IC.
         print("Checking complete.")
 
@@ -86,8 +88,7 @@ class Simulation:
                 pygame.quit()
                 sys.exit()
         self._check_boundaries()
-        self.forces.collision_forces(self.shapes)
-        self.forces.surface_forces(self.shapes, self.environment.tiles)
+        self.forces.sum_forces(self.shapes, self.environment.tiles)
         for shape in self.shapes:
             shape.move()
 
@@ -113,7 +114,6 @@ class Simulation:
                     shape.y_vel *= -1
                 if dx >= (self.screen_width - shape.size) or dx <= 0:
                     shape.x_vel *= -1
-
 
     def _draw_grid(self):
         dim = max(self.screen_height, self.screen_width)

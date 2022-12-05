@@ -32,7 +32,8 @@ class Environment:
     def create(self, screen, tile_size):
 
         grid_shape = tuple(int(i/tile_size) for i in screen.get_size())
-        assert (self.data.shape == grid_shape), f"Environment size should be {grid_shape}"
+        assert (self.data.shape ==
+                grid_shape), f"Environment size should be {grid_shape}"
 
         self.tiles = []
         for i, row in enumerate(self.data):

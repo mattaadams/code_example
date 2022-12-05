@@ -3,6 +3,7 @@ import pygame
 import numpy as np
 import itertools
 
+
 class Square(Shape):
     """
     Implements a square shape.
@@ -18,6 +19,7 @@ class Square(Shape):
     **kwargs: Arbitrary keyword arguments.
 
     """
+
     def __init__(self, size: float, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.shape = "Square"
@@ -51,7 +53,6 @@ class Square(Shape):
         center_x = self.x + (self.__size / 2)
         center_y = self.y + (self.__size / 2)
         return np.array((center_x, center_y))
-    
 
     def __str__(self):
         return f'size {self.__size} Square {self.name}'

@@ -3,6 +3,8 @@ import math
 import pygame
 import numpy as np
 import itertools
+
+
 class Circle(Shape):
     """
     Implements a circular shape.
@@ -19,30 +21,30 @@ class Circle(Shape):
 
     **kwargs: Arbitrary keyword arguments.
 
-    """ 
+    """
 
     def __init__(self, radius: float, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.shape = "Circle"
-        self.__radius = radius
+        self._radius = radius
 
     @property
     def radius(self):
-        return self.__radius
+        return self._radius
 
     @radius.setter
     def radius(self, radius):
         if (radius <= 0):
             raise ValueError("Radius must be above 0")
-        self.__radius = radius
+        self._radius = radius
 
     @property
     def area(self):
-        return math.pi * self.__radius ** 2
+        return math.pi * self.radius ** 2
 
     @property
     def circumference(self):
-        return 2 * math.pi * self.__radius
+        return 2 * math.pi * self.radius
 
     @property
     def mass(self):

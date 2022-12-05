@@ -31,21 +31,36 @@ class Forces:
         self.rotation = rotation
 
     def collision_forces(self, objects):
+        """
+        Two-body interactions between two shapes.
+
+        Parameters
+        ----------
+
+        objects: list[:class:`Shapes Objects`]
+
+        Currently only supports 
+        """
         if self.collision:
             collisions = 0
             for obj1, obj2 in itertools.combinations(objects, 2):
                 if obj1.shape == obj2.shape == "Square":
-                    rect1 = pygame.Rect((obj1.x, obj1.y), (obj1.size, obj1.size))
+                    rect1 = pygame.Rect(
+                        (obj1.x, obj1.y), (obj1.size, obj1.size))
                     if rect1.colliderect(obj2.x, obj2.y, obj2.size, obj2.size):
                         self._collide(obj1, obj2)
                         collisions += 1
 
                 if obj1.shape == obj2.shape == "Circle":
-                    distance = math.sqrt((obj2.x - obj1.x)**2 + (obj2.y-obj1.y)**2)
-                    if distance <= (obj1.radius + obj2.radius):
+                    distance = math.sqrt(
+                        (obj2.x - obj1.x)**2 + (obj2.y-obj1.y)**2)
+                    if distance < (obj1.radius + obj2.radius):
                         self._collide(obj1, obj2)
                         collisions += 1
-        return collisions  
+                #TODO - implement square-circle interaction
+                if obj1.shape != obj2.shape:
+                    pass
+        return collisions
 
     def _collide(self, obj1, obj2):
         # Adapted from https://en.wikipedia.org/wiki/Elastic_collision
@@ -56,7 +71,7 @@ class Forces:
 
         v2 = obj2.vel - ((2*obj1.mass)/M) * (np.dot(obj2.vel-obj1.vel,
                                              obj2.center-obj1.center) / norm) * (obj2.center-obj1.center)
-        
+
         obj1.x_vel = v1[0]
         obj1.y_vel = v1[1]
 
@@ -64,6 +79,11 @@ class Forces:
         obj2.y_vel = v2[1]
 
     def surface_forces(self, objects, surfaces):
+        """
+        Two-body interactions between a shape and a tile.
+
+        
+        """
         for surface in surfaces:
             for obj in objects:
                 dy = obj.y + obj.y_vel
@@ -71,17 +91,28 @@ class Forces:
                 if obj.shape == "Rectangle":
                     if surface.colliderect(obj.x, dy, obj.size, obj.size):
                         obj.y_vel *= -1
+                        obj.is_moving = False
+                        if obj.y_vel < 0:
+                            obj.is_moving = True
                     if surface.colliderect(dx, obj.y, obj.size, obj.size):
                         obj.x_vel *= -1
                 if obj.shape == "Circle":
                     if surface.colliderect(obj.x, dy, obj.radius, obj.radius):
                         obj.y_vel *= -1
+                        # obj.is_moving = False
+                        # if obj.y_vel < 0:
+                        #     obj.is_moving = True
                     if surface.colliderect(dx, obj.y, obj.radius, obj.radius):
                         obj.x_vel *= -1
 
     def gravity_forces(self, objects):
+        """
+        TODO
+        """
         for obj in objects:
-            obj.y_vel -= 1
+            pass
+            # if obj.is_moving:
+            #     obj.y_vel += 1
 
     def magnetic_forces(self):
         """
@@ -95,4 +126,7 @@ class Forces:
         """
         pass
 
-
+    def sum_forces(self, objects, surface):
+        self.collision_forces(objects)
+        self.surface_forces(objects, surface)
+        self.gravity_forces(objects)

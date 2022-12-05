@@ -1,5 +1,7 @@
 import math
 import numpy as np
+
+
 class Shape:
 
     """
@@ -35,7 +37,7 @@ class Shape:
     color: tuple
         Color of the shape
 
-    is_falling: bool
+    is_moving: bool
 
 
     """
@@ -51,7 +53,7 @@ class Shape:
         x_vel: float = 0.0,
         y_vel: float = 0.0,
         color: tuple = (0, 255, 0),
-        is_falling: bool = True
+        is_moving: bool = True
     ):
 
         self.name = name
@@ -61,34 +63,33 @@ class Shape:
         self.y_vel = y_vel
         self.charge = charge
         self.color = color
-        self.__density = density
-        self.__elasticity = elasticity
-        self.is_falling = is_falling
+        self._density = density
+        self._elasticity = elasticity
+        self.is_moving = is_moving
 
     @property
     def density(self):
-        return self.__density
+        return self._density
 
     @density.setter
     def density(self, density):
         if (density <= 0):
             raise ValueError("Density must be above 0")
-        self.__density = density
+        self._density = density
 
     @property
     def elasticity(self):
-        return self.__elasticity
+        return self._elasticity
 
     @elasticity.setter
     def elasticity(self, elasticity):
         if (0 < elasticity) or (elasticity > 1):
             raise ValueError("Elasticity must be between [0,1]")
-        self.__elasticity = elasticity
+        self._elasticity = elasticity
 
     def move(self):
         self.x += self.x_vel
         self.y += self.y_vel
-
 
     @property
     def forcefield(self):
@@ -97,6 +98,3 @@ class Shape:
     @property
     def vel(self):
         return np.array((self.x_vel, self.y_vel))
-
-
-
