@@ -3,9 +3,9 @@ import sys
 import itertools
 import numpy as np
 import math
+import time
 
 WHITE = (255, 255, 255)
-
 
 class Simulation:
     """
@@ -25,6 +25,8 @@ class Simulation:
 
     forces: :class: `Forces Object`
 
+    sim_time: int
+
     Attributes
     -----------
 
@@ -41,6 +43,7 @@ class Simulation:
         screen_width: int,
         screen_height: int,
         shapes: list = [],
+        sim_time: int = 2,
         environment=None,
         forces=None
     ):
@@ -51,6 +54,7 @@ class Simulation:
         self.shapes = shapes
         self.environment = environment
         self.forces = forces
+        self.sim_time = sim_time
         self.tile_size = 50
 
         # Starts pygame instance.
@@ -58,17 +62,28 @@ class Simulation:
         pygame.display.set_caption('Environment')
         self.screen = pygame.display.set_mode((screen_width, screen_height))
         self.clock = pygame.time.Clock()
+        self.start_time = time.time()
+        self._check_initial_conditions()
 
     def run(self):
-        self._check_initial_conditions()
-        while self.running:
-            self.clock.tick(30)
-            self._check_events()
-            self._update_screen()
+        try:
+            while self.running:
+                    self.clock.tick(20)
+                    d = self._check_events()
+                    self._update_screen()
+        except:
+            self.running = False
+        return [shape.center for shape in self.shapes]
 
+
+
+    def _check_time(self):
+        elapsed_time = time.time() - self.start_time
+        if elapsed_time >= self.sim_time:
+            return True
+        
     def _check_initial_conditions(self):
         print('Checking Initial Conditions...')
-
         N_shape_types = len(set([shape.shape for shape in self.shapes]))
         assert N_shape_types == 1, "Multiple types of shapes not currently supported."
 
@@ -77,20 +92,21 @@ class Simulation:
         assert (self.environment.data.shape ==
                 grid_shape), f"Environment size should be {grid_shape}"
 
-        assert (self.forces.collision_forces(self.shapes) ==
+        assert (self.forces._collision_forces(self.shapes) ==
                 0), "Initial Object positions cannot intersect"
-        # Check if outside boundary or if any objects overlap surface at IC.
+        # Check if outside boundary at IC
+        # if any objects overlap surface(s) at IC.
         print("Checking complete.")
 
     def _check_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        self._check_boundaries()
-        self.forces.sum_forces(self.shapes, self.environment.tiles)
         for shape in self.shapes:
             shape.move()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT or self._check_time():
+                    pygame.display.quit()
+                    pygame.quit()
+        self._check_boundaries()
+        self.forces.update_velocities(self.shapes, self.environment.tiles)
 
     def _update_screen(self):
         self.screen.fill(self.background_color)
@@ -107,6 +123,10 @@ class Simulation:
             if shape.shape == "Circle":
                 if dy >= (self.screen_height - shape.radius) or dy <= shape.radius:
                     shape.y_vel *= -1
+                    shape.is_bouncing = False
+                    if shape.y_vel != 0:
+                        shape.is_bouncing = True
+
                 if dx >= (self.screen_width - shape.radius) or dx <= shape.radius:
                     shape.x_vel *= -1
             elif shape.shape == "Square":
