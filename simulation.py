@@ -44,23 +44,41 @@ class Simulation:
         environment=None,
         forces=None
     ):
-        pygame.init()
-        pygame.display.set_caption('Environment')
+
         self.screen_width = screen_width
         self.screen_height = screen_height
-        self.screen = pygame.display.set_mode((screen_width, screen_height))
-        self.clock = pygame.time.Clock()
         self.running = True
         self.shapes = shapes
         self.environment = environment
         self.forces = forces
         self.tile_size = 50
 
+        # Starts pygame instance.
+        pygame.init()
+        pygame.display.set_caption('Environment')
+        self.screen = pygame.display.set_mode((screen_width, screen_height))
+        self.clock = pygame.time.Clock()
+
     def run(self):
+        self._check_initial_conditions()
         while self.running:
             self.clock.tick(30)
             self._check_events()
             self._update_screen()
+
+    def _check_initial_conditions(self):
+        print('Checking Initial Conditions...')
+
+        N_shape_types = len(set([shape.shape for shape in self.shapes]))
+        assert N_shape_types == 1, "Multiple types of shapes not currently supported."
+        
+        grid_shape = tuple(int(i/self.tile_size)
+                           for i in self.screen.get_size())
+        assert (self.environment.data.shape ==
+                grid_shape), f"Environment size should be {grid_shape}"
+
+        # Check if outside boundary or if any objects overlap at IC.
+        print("Checking complete.")
 
     def _check_events(self):
         for event in pygame.event.get():

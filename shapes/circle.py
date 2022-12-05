@@ -1,7 +1,7 @@
 from .shape import Shape
 import math
 import pygame
-
+import numpy as np
 
 class Circle(Shape):
     """
@@ -55,6 +55,10 @@ class Circle(Shape):
     @property
     def height(self):
         return self.radius * 2
+
+    @property
+    def center(self):
+        return np.array((self.x, self.y))
 
     def __str__(self):
         return f'Circle {self.name}'

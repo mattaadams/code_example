@@ -1,4 +1,5 @@
-
+import math
+import numpy as np
 class Shape:
 
     """
@@ -80,8 +81,8 @@ class Shape:
 
     @elasticity.setter
     def elasticity(self, elasticity):
-        if (elasticity <= 0):
-            raise ValueError("Elasticity must be above 0")
+        if (0 < elasticity) or (elasticity > 1):
+            raise ValueError("Elasticity must be between [0,1]")
         self.__elasticity = elasticity
 
     def move(self):
@@ -97,3 +98,9 @@ class Shape:
             self.y_vel += gravity
         else:
             self.y_vel = 0
+
+    @property
+    def vel(self):
+        return np.array((self.x_vel, self.y_vel))
+
+
