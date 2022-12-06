@@ -138,7 +138,7 @@ class Simulation:
         self._check_boundaries()
         if self.environment:
             self.environment.create(self.tile_size)
-        self.forces._update_velocities(self.shapes, self.environment.tiles[1])
+        self.forces._update_velocities(self.shapes, self.environment.tiles)
 
     def _update_screen(self):
         """Contains methods which update pygame window"""

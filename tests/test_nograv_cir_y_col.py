@@ -38,6 +38,6 @@ final_positions = sim.run()
 all_coordinates = np.concatenate(final_positions,axis=0)
 
 def test_final_pos_in_bounds():
-    assert np.any(all_coordinates < screen_size-radius) == True
+    assert np.all(all_coordinates < screen_size-radius) == True
 
-    assert np.any(all_coordinates > radius) == True
+    assert np.all(all_coordinates > radius) == True

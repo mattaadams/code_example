@@ -32,6 +32,7 @@ class Environment:
     def create(self, tile_size):
 
         self.tiles = []
+
         for i, row in enumerate(self.data):
             for j, tile in enumerate(row):
                 if tile == 0:
@@ -44,8 +45,9 @@ class Environment:
                     self.tiles.append(tile)
 
     def draw(self,screen):
-        for tile in self.tiles:
-            pygame.draw.rect(screen, tile[0], tile[1])
+        if self.tiles:
+            for tile in self.tiles:
+                pygame.draw.rect(screen, tile[0], tile[1])
 
     def update(self):
         pass

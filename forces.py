@@ -3,7 +3,6 @@ import math
 import itertools
 import numpy as np
 
-
 class Forces:
     """
     Forces object is used to calculate and update 
@@ -98,6 +97,13 @@ class Forces:
             individual properties and coordinates in 
             the simulation environment.
 
+        Returns
+        -------
+
+        shape_1.vel, shape_2.vel: ndarray 
+
+        Vectors representing x,y components of velocity[x_vel,y_vel]
+
         """
         # Adapted from https://en.wikipedia.org/wiki/Elastic_collision
         M = shape_1.mass + shape_2.mass
@@ -136,6 +142,8 @@ class Forces:
             shape_1.y_vel = math.floor(final_v1[1])
             shape_2.y_vel = math.floor(final_v2[1])
 
+        return shape_1.vel, shape_2.vel
+
     def _surface_forces(self, shapes, surfaces):
         """
         Calculates the velocity of object after colliding with environmental
@@ -153,26 +161,27 @@ class Forces:
 
 
         """
-        for surface in surfaces:
-            for shape in shapes:
-                dy = shape.y + shape.y_vel
-                dx = shape.x + shape.x_vel
-                if shape.shape == "Rectangle":
-                    if surface.colliderect(
-                            shape.x, dy, shape.size, shape.size):
-                        shape.y_vel *= -1
-                    if surface.colliderect(
-                            dx, shape.y, shape.size, shape.size):
-                        shape.x_vel *= -1
-                if shape.shape == "Circle":
-                    if surface.colliderect(
-                            shape.x, dy, shape.radius, shape.radius):
-                        shape.y_vel *= -1
-                        shape.is_bouncing = False
-                    if surface.colliderect(
-                            dx, shape.y, shape.radius, shape.radius):
-                        if shape.y_vel < 0:
+        if surfaces:
+            for surface in surfaces:
+                for shape in shapes:
+                    dy = shape.y + shape.y_vel
+                    dx = shape.x + shape.x_vel
+                    if shape.shape == "Rectangle":
+                        if surface.colliderect(
+                                shape.x, dy, shape.size, shape.size):
+                            shape.y_vel *= -1
+                        if surface.colliderect(
+                                dx, shape.y, shape.size, shape.size):
                             shape.x_vel *= -1
+                    if shape.shape == "Circle":
+                        if surface.colliderect(
+                                shape.x, dy, shape.radius, shape.radius):
+                            shape.y_vel *= -1
+                            shape.is_bouncing = False
+                        if surface.colliderect(
+                                dx, shape.y, shape.radius, shape.radius):
+                            if shape.y_vel < 0:
+                                shape.x_vel *= -1
 
     def _gravitational_forces(self, shapes):
         """
@@ -214,3 +223,4 @@ class Forces:
 
         if self.gravity:
             self._gravitational_forces(shapes)
+
