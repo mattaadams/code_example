@@ -23,22 +23,17 @@ force1 = Forces(gravity=True)
 sim = Simulation(
     screen_width=screen_size,
     screen_height=screen_size,
-    sim_time=20,
+    sim_time=0,
     shapes=list_of_shapes,
     environment=env1,
     forces=force1,
-    render=False
+    render=True
 )
 
 
 final_positions = sim.run()
 
-all_coordinates = np.concatenate(final_positions,axis=0)
 
 
-def test_final_pos_in_bounds():
-    assert np.any(all_coordinates < screen_size-radius) == True
-
-    assert np.any(all_coordinates > radius) == True
 
 

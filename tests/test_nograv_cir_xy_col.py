@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from simulation import Simulation
 from shapes.circle import Circle

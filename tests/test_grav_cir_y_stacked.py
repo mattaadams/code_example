@@ -33,7 +33,6 @@ sim = Simulation(
 
 final_positions = sim.run()
 
-print(final_positions)
 all_coordinates = np.concatenate(final_positions,axis=0)
 
 

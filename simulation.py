@@ -27,6 +27,9 @@ class Simulation:
 
     sim_time: int
 
+    Indicates the length of the simulation in seconds.
+    Setting to `sim_time` to 0 allows it to run until manually stopped.
+
     Attributes
     -----------
 
@@ -81,9 +84,10 @@ class Simulation:
 
 
     def _check_time(self):
-        elapsed_time = time.time() - self.start_time
-        if elapsed_time >= self.sim_time:
-            return True
+        if self.sim_time:
+            elapsed_time = time.time() - self.start_time
+            if elapsed_time >= self.sim_time:
+                return True
         
     def _check_initial_conditions(self):
         print('Checking Initial Conditions...')
