@@ -4,7 +4,7 @@ from shapes.circle import Circle
 from environment import Environment
 from forces import Forces
 
-# Tests boundaries in x direction, 
+# Tests boundaries in x directions, 
 
 radius = 10
 screen_size = 300
@@ -24,11 +24,13 @@ force1 = Forces(gravity=False)
 sim = Simulation(
     screen_width=screen_size,
     screen_height=screen_size,
-    sim_time=10,
+    sim_time=20,
     shapes=list_of_shapes,
     environment=env1,
-    forces=force1
+    forces=force1,
+    render=False
 )
+
 
 final_positions = sim.run()
 

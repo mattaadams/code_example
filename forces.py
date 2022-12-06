@@ -52,35 +52,42 @@ class Forces:
         collisions: int
             Total number of collisions across shapes.
         """
-        if self.collision:
-            collisions = 0
-            for shape_1, shape_2 in itertools.combinations(shapes, 2):
-                if shape_1.shape == shape_2.shape == "Square":
-                    rect1 = pygame.Rect(
-                        (shape_1.x, shape_1.y), (shape_1.size, shape_1.size))
-                    if rect1.colliderect(
-                            shape_2.x, shape_2.y, shape_2.size, shape_2.size):
-                        self._collide(shape_1, shape_2)
-                        collisions += 1
+        collisions = 0
+        for shape_1, shape_2 in itertools.combinations(shapes, 2):
+            if shape_1.shape == shape_2.shape == "Square":
+                rect1 = pygame.Rect(
+                    (shape_1.x, shape_1.y), (shape_1.size, shape_1.size))
+                if rect1.colliderect(
+                        shape_2.x, shape_2.y, shape_2.size, shape_2.size):
+                    self.collide(shape_1, shape_2)
+                    collisions += 1
 
-                if shape_1.shape == shape_2.shape == "Circle":
-                    distance = math.sqrt(
-                        (shape_2.x - shape_1.x)**2 + (shape_2.y - shape_1.y)**2)
-                    speed = np.abs(shape_1.vel - shape_2.vel)
-                    collide_speed = math.floor(
-                        np.sqrt(speed[0]**2 + speed[1]**2))
-                    max_dir = max(speed[0], speed[1])
-                    if distance < (shape_1.radius + shape_2.radius + max_dir):
-                        self._collide(shape_1, shape_2)
-                        collisions += 1
-                # TODO - implement square-circle interaction
-                if shape_1.shape != shape_2.shape:
-                    raise ValueError("Multiple types of shapes not supported.")
+            if shape_1.shape == shape_2.shape == "Circle":
+                distance = math.sqrt(
+                    (shape_2.x - shape_1.x)**2 + (shape_2.y - shape_1.y)**2)
+                speed = np.abs(shape_1.vel - shape_2.vel)
+                collide_speed = math.floor(
+                    np.sqrt(speed[0]**2 + speed[1]**2))
+                max_dir = max(speed[0], speed[1])
+                if distance < (shape_1.radius + shape_2.radius + max_dir):
+                    self.collide(shape_1, shape_2)
+                    collisions += 1
+            # TODO - implement square-circle interaction
+            if shape_1.shape != shape_2.shape:
+                raise ValueError("Multiple types of shapes not supported.")
         return collisions
 
-    def _collide(self, shape_1, shape_2):
+    def collide(self, shape_1, shape_2):
+        """"
+        Parameters
+        ----------
+
+        shape_1: :class: `Shape Object`
+
+        shape_2: :class: `Shape Object`
+
+        """
         # Adapted from https://en.wikipedia.org/wiki/Elastic_collision
-        print(shape_1, shape_2, '-------COLLIDE--------')
         M = shape_1.mass + shape_2.mass
         norm = np.linalg.norm(shape_1.center - shape_2.center)**2
         if norm == 0:
@@ -165,13 +172,27 @@ class Forces:
         shapes: list[:class:`Shape Object`]
 
         """
-        if self.gravity:
-            for shape in shapes:
-                gravity = 1
-                if shape.is_bouncing:
-                    shape.y_vel += gravity
 
-    def update_velocities(self, shapes, surface):
-        self._collision_forces(shapes)
-        self._surface_forces(shapes, surface)
-        self._gravitational_forces(shapes)
+        for shape in shapes:
+            gravity = 1
+            if shape.is_bouncing:
+                shape.y_vel += gravity
+
+    def _update_velocities(self, shapes, surface):
+        """
+        Parameters
+        ----------
+
+        shapes: list[:class:`Shape Object`]
+
+        surface: :class: `Environment Object`
+        """
+
+        if self.collision:
+            self._collision_forces(shapes)
+
+        if self.surface:
+            self._surface_forces(shapes, surface)
+
+        if self.gravity:
+            self._gravitational_forces(shapes)

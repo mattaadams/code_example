@@ -4,8 +4,6 @@ from shapes.circle import Circle
 from environment import Environment
 from forces import Forces
 
-import os
-os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 # Tests y_velocity-only gravity and floor boundaries
 
@@ -26,11 +24,13 @@ force1 = Forces(gravity=True)
 sim = Simulation(
     screen_width=screen_size,
     screen_height=screen_size,
-    sim_time=10,
+    sim_time=20,
     shapes=list_of_shapes,
     environment=env1,
-    forces=force1
+    forces=force1,
+    render=False
 )
+
 
 final_positions = sim.run()
 

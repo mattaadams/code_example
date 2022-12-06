@@ -25,11 +25,13 @@ force1 = Forces(gravity=False)
 sim = Simulation(
     screen_width=screen_size,
     screen_height=screen_size,
-    sim_time=10,
+    sim_time=20,
     shapes=list_of_shapes,
     environment=env1,
-    forces=force1
+    forces=force1,
+    render=False
 )
+
 
 final_positions = sim.run()
 
