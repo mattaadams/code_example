@@ -6,8 +6,8 @@ import numpy as np
 
 class Forces:
     """
-    Forces object is used to calculate and update 
-    the final velocities of objects. Controls which 
+    Forces object is used to calculate and update
+    the final velocities of objects. Controls which
     type of forces exists in the simulation.
 
     Parameters
@@ -77,7 +77,10 @@ class Forces:
                 collide_speed = math.floor(
                     np.sqrt(speed[0]**2 + speed[1]**2))
                 max_comp_speed = max(speed[0], speed[1])
-                if distance < (shape_1.radius + shape_2.radius + max_comp_speed):
+                if distance < (
+                        shape_1.radius +
+                        shape_2.radius +
+                        max_comp_speed):
                     self.calculate_final_collision_velocities(shape_1, shape_2)
                     collisions += 1
             # TODO - implement square-circle interaction
@@ -85,23 +88,24 @@ class Forces:
                 raise ValueError("Multiple types of shapes not supported.")
         return collisions
 
-    def calculate_final_collision_velocities(self, shape_1: object, shape_2: object):
+    def calculate_final_collision_velocities(
+            self, shape_1: object, shape_2: object):
         """
-        Calculates and updates the final velocities when 
-        two-movable objects directly collide 
+        Calculates and updates the final velocities when
+        two-movable objects directly collide
 
         Parameters
         ----------
 
         shape_1, shape2: :class: `Shape Object`
-            List of `Shape` objects which indicate each shape's 
-            individual properties and coordinates in 
+            List of `Shape` objects which indicate each shape's
+            individual properties and coordinates in
             the simulation environment.
 
         Returns
         -------
 
-        shape_1.vel, shape_2.vel: ndarray 
+        shape_1.vel, shape_2.vel: ndarray
 
         Vectors representing x,y components of velocity[x_vel,y_vel]
 
@@ -112,10 +116,10 @@ class Forces:
         if norm == 0:
             norm = 1e6
 
-        if shape_1.is_bouncing == False:
+        if not shape_1.is_bouncing:
             shape_1.y_vel = 0
             shape_2.y_vel *= -1
-        if shape_2.is_bouncing == False:
+        if not shape_2.is_bouncing:
             shape_2.y_vel = 0
             shape_1.y_vel *= -1
 
@@ -139,7 +143,7 @@ class Forces:
 
         shape_1.x_vel = math.floor(final_v1[0])
 
-        if shape_2.is_bouncing == True and shape_1.is_bouncing == True:
+        if shape_2.is_bouncing and shape_1.is_bouncing:
             shape_1.y_vel = math.floor(final_v1[1])
             shape_2.y_vel = math.floor(final_v2[1])
 
@@ -206,12 +210,12 @@ class Forces:
         ----------
 
         shapes: list[:class:`Shape Object`]
-            List of `Shape` objects which indicate each shape's 
-            individual properties and coordinates in 
+            List of `Shape` objects which indicate each shape's
+            individual properties and coordinates in
             the simulation environment.
 
         surface: :class: `Environment Object`
-            Environment Obj, stores,updates and creates environmental 
+            Environment Obj, stores,updates and creates environmental
             information of additional collidable immovable objects
 
         """
