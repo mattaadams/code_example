@@ -7,7 +7,7 @@ class Player(Circle):
     A player which is derived from the Circle class. 
     The player class shares the same parameters of the circle,
     but is able to move freely by using the arrow keys.
-    
+
     """
 
     def __init__(self, *args, **kwargs):

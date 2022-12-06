@@ -4,7 +4,7 @@ from shapes.circle import Circle
 from environment import Environment
 from forces import Forces
 
-# Tests boundaries in x directions, 
+# Tests boundaries in x directions,
 
 radius = 10
 screen_size = 300
@@ -34,7 +34,7 @@ sim = Simulation(
 
 final_positions = sim.run()
 
-all_coordinates = np.concatenate(final_positions,axis=0)
+all_coordinates = np.concatenate(final_positions, axis=0)
 
 
 def test_final_pos_in_bounds():

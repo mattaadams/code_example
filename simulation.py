@@ -7,6 +7,7 @@ import time
 
 WHITE = (255, 255, 255)
 
+
 class Simulation:
     """
     Initiates a simulation iwith the given parameters.
@@ -53,9 +54,9 @@ class Simulation:
         screen_height: int,
         shapes: list = [],
         sim_time: int = 2,
-        environment=None,
-        forces=None,
-        render=True
+        environment: object = None,
+        forces: object = None,
+        render: bool = True
     ):
 
         self.screen_width = screen_width
@@ -73,7 +74,8 @@ class Simulation:
         if self.render:
             pygame.init()
             pygame.display.set_caption('Environment')
-            self.screen = pygame.display.set_mode((screen_width, screen_height))
+            self.screen = pygame.display.set_mode(
+                (screen_width, screen_height))
             self._check_initial_conditions()
 
     def run(self):
@@ -88,19 +90,17 @@ class Simulation:
             self.running = False
         return [shape.center for shape in self.shapes]
 
-
-
     def _check_time(self):
         """Checks the time elapsed"""
         if self.sim_time:
             elapsed_time = time.time() - self.start_time
             if elapsed_time >= self.sim_time:
                 return True
-        
+
     def _check_initial_conditions(self):
         """Checks if certain prerequisite conditions are met before
         running a simulation.
-        
+
         Currently checks to make sure:
             there's only 1 type of moving shape included
             The environment matches the grid-size
@@ -200,7 +200,7 @@ class Simulation:
     def set_background_color(cls, color):
         """
         Sets the background color of the rendered simulation.
-        
+
         Parameters
         ----------
         color: tuple[int,int,int]

@@ -44,7 +44,7 @@ class Shape:
         density: float = 1.0,
         x_vel: float = 0.0,
         y_vel: float = 0.0,
-        color: tuple = (0, 255, 0),
+        color: tuple[int, int, int] = (0, 255, 0),
     ):
 
         self.name = name

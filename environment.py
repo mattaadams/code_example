@@ -29,7 +29,7 @@ class Environment:
         self.name = name
         self.tiles = []
 
-    def create(self, tile_size):
+    def create(self, tile_size: int):
 
         self.tiles = []
 
@@ -44,7 +44,7 @@ class Environment:
                     tile = (color, pygame.Rect((x, y), (tile_size, tile_size)))
                     self.tiles.append(tile)
 
-    def draw(self,screen):
+    def draw(self, screen: object):
         if self.tiles:
             for tile in self.tiles:
                 pygame.draw.rect(screen, tile[0], tile[1])

@@ -34,8 +34,3 @@ sim = Simulation(
 
 
 final_positions = sim.run()
-
-
-
-
-

@@ -3,6 +3,7 @@ import math
 import itertools
 import numpy as np
 
+
 class Forces:
     """
     Forces object is used to calculate and update 
@@ -30,11 +31,11 @@ class Forces:
     """
 
     def __init__(self,
-                 collision=True,
-                 surface=True,
-                 gravity=True,
-                 magnetic=False,
-                 rotation=False
+                 collision: bool = True,
+                 surface: bool = True,
+                 gravity: bool = True,
+                 magnetic: bool = False,
+                 rotation: bool = False
                  ):
         self.collision = collision
         self.surface = surface
@@ -42,7 +43,7 @@ class Forces:
         self.magnetic = magnetic
         self.rotation = rotation
 
-    def _collision_forces(self, shapes):
+    def _collision_forces(self, shapes: list[object]):
         """
         Two-body interactions between two shape objects.
         Calculates the final velocities for each object after collision.
@@ -84,7 +85,7 @@ class Forces:
                 raise ValueError("Multiple types of shapes not supported.")
         return collisions
 
-    def calculate_final_collision_velocities(self, shape_1, shape_2):
+    def calculate_final_collision_velocities(self, shape_1: object, shape_2: object):
         """
         Calculates and updates the final velocities when 
         two-movable objects directly collide 
@@ -144,7 +145,7 @@ class Forces:
 
         return shape_1.vel, shape_2.vel
 
-    def _surface_forces(self, shapes, surfaces):
+    def _surface_forces(self, shapes: list[object], surfaces: list[object]):
         """
         Calculates the velocity of object after colliding with environmental
         surface tile object.
@@ -223,4 +224,3 @@ class Forces:
 
         if self.gravity:
             self._gravitational_forces(shapes)
-

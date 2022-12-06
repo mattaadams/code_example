@@ -34,7 +34,7 @@ sim = Simulation(
 
 final_positions = sim.run()
 
-all_coordinates = np.concatenate(final_positions,axis=0)
+all_coordinates = np.concatenate(final_positions, axis=0)
 
 
 def test_final_pos_in_bounds():
