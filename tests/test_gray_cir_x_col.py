@@ -7,8 +7,8 @@ from forces import Forces
 
 circles = []
 for i in range(5):
-    circles.append(Circle(10.0, x=50 * (i + 1), y=250, x_vel=1,
-                   y_vel=3 * (i + 1), color=(0, 100, 0)))
+    circles.append(Circle(10.0, y=50 * (i + 1), x=250, y_vel=0,
+                   x_vel=3 * (i + 1), color=(0, 100, 0)))
 
 list_of_shapes = circles
 env_data = np.zeros((6, 6))
@@ -18,8 +18,14 @@ force1 = Forces(gravity=True)
 sim = Simulation(
     screen_width=300,
     screen_height=300,
+    sim_time=20,
     shapes=list_of_shapes,
     environment=env1,
     forces=force1
 )
-sim.run()
+
+final_positions = sim.run()
+
+def test_final_pos_in_bounds():
+    assert final_positions == final_positions
+

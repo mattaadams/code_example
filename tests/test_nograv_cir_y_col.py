@@ -4,6 +4,13 @@ from shapes.circle import Circle
 from environment import Environment
 from forces import Forces
 
+
+# Test boundaries in y-direction
+
+
+radius = 10
+screen_size = 300
+
 circles = []
 
 for i in range(4):
@@ -17,10 +24,19 @@ env1 = Environment(env_data)
 force1 = Forces(gravity=False)
 
 sim = Simulation(
-    screen_width=300,
-    screen_height=300,
+    screen_width=screen_size,
+    screen_height=screen_size,
+    sim_time=10,
     shapes=list_of_shapes,
     environment=env1,
     forces=force1
 )
-sim.run()
+
+final_positions = sim.run()
+
+all_coordinates = np.concatenate(final_positions,axis=0)
+
+def test_final_pos_in_bounds():
+    assert np.any(all_coordinates < screen_size-radius) == True
+
+    assert np.any(all_coordinates > radius) == True
