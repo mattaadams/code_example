@@ -7,7 +7,8 @@ class Shape:
     """
     Base class for shapes; Implements base-properties
 
-    WARNING: This class should not be used directly. Use derived classes instead!
+    WARNING: This class should not be used directly. 
+    Use or create derived classes instead!
 
     Parameters:
     ----------
@@ -30,11 +31,8 @@ class Shape:
             positive velocity is downward direction
             negative velocity is upward direction
 
-    color: tuple
+    color: tuple[int,int,int]
         Color of the shape
-
-    is_bouncing: bool
-
 
     """
 
@@ -47,7 +45,6 @@ class Shape:
         x_vel: float = 0.0,
         y_vel: float = 0.0,
         color: tuple = (0, 255, 0),
-        is_bouncing: bool = True
     ):
 
         self.name = name
@@ -57,7 +54,7 @@ class Shape:
         self.y_vel = y_vel
         self.color = color
         self._density = density
-        self.is_bouncing = is_bouncing
+        self.is_bouncing = True
 
     @property
     def density(self):

@@ -29,11 +29,7 @@ class Environment:
         self.name = name
         self.tiles = []
 
-    def create(self, screen, tile_size):
-
-        grid_shape = tuple(int(i / tile_size) for i in screen.get_size())
-        assert (self.data.shape ==
-                grid_shape), f"Environment size should be {grid_shape}"
+    def create(self, tile_size):
 
         self.tiles = []
         for i, row in enumerate(self.data):
@@ -45,8 +41,11 @@ class Environment:
                     y = i * tile_size
                     color = BLACK
                     tile = (color, pygame.Rect((x, y), (tile_size, tile_size)))
-                    pygame.draw.rect(screen, tile[0], tile[1])
-                    self.tiles.append(tile[1])
+                    self.tiles.append(tile)
+
+    def draw(self,screen):
+        for tile in self.tiles:
+            pygame.draw.rect(screen, tile[0], tile[1])
 
     def update(self):
         pass

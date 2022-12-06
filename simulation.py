@@ -9,31 +9,37 @@ WHITE = (255, 255, 255)
 
 class Simulation:
     """
-    Simulation summary
+    Initiates a simulation iwith the given parameters.
 
     Parameters
     ----------
     screen_width: int
-        Name of circle object
+        Width of pygame display window
 
     screen_height: int
-        Name of circle object
+        Height of pygame display window
 
-    shapes: list[:class:`Shapes Objects`]
+    shapes: list[:class: `Shape`]
+        List of `Shape` objects which indicate each shape's 
+        individual properties and coordinates in 
+        the simulation environment.
 
-    environment: :class:`Environment Object`
+    environment: :class: `Environment` 
+        Environment Obj, stores,updates and creates environmental 
+        information of additional collidable immovable objects
 
-    forces: :class: `Forces Object`
+    forces: :class: `Forces`
+        Forces object which is used to calculate and update the velocities
+        of objects. Controls which type of forces exists in the simulation.
 
     sim_time: int
-
-    Indicates the length of the simulation in seconds.
-    Setting to `sim_time` to 0 allows it to run until manually stopped.
+        Indicates the length of the simulation in seconds.
+        Setting to `sim_time` to 0 allows it to run until manually stopped.
 
     Attributes
     -----------
 
-    background_color: tuple 
+    background_color: tuple[int,int,int]
         Used to specify the background color in RGB format (R,G,B)
         Each value must be between 0-255.
 
@@ -71,10 +77,11 @@ class Simulation:
             self._check_initial_conditions()
 
     def run(self):
+        """Runs the simulation"""
         try:
             while self.running:
                 self.clock.tick(20)
-                d = self._check_events()
+                self._check_events()
                 if self.render:
                     self._update_screen()
         except:
@@ -84,12 +91,22 @@ class Simulation:
 
 
     def _check_time(self):
+        """Checks the time elapsed"""
         if self.sim_time:
             elapsed_time = time.time() - self.start_time
             if elapsed_time >= self.sim_time:
                 return True
         
     def _check_initial_conditions(self):
+        """Checks if certain prerequisite conditions are met before
+        running a simulation.
+        
+        Currently checks to make sure:
+            there's only 1 type of moving shape included
+            The environment matches the grid-size
+            The initial moving objects do not intersect:
+        """
+
         print('Checking Initial Conditions...')
         N_shape_types = len(set([shape.shape for shape in self.shapes]))
         assert N_shape_types == 1, "Multiple types of shapes not currently supported."
@@ -101,11 +118,13 @@ class Simulation:
 
         assert (self.forces._collision_forces(self.shapes) ==
                 0), "Initial Object positions cannot intersect"
-        # Check if outside boundary at IC
-        # if any objects overlap surface(s) at IC.
+        # todo:Check if outside boundary at IC
+        # todo:if any objects overlap surface(s) at IC.
         print("Checking complete.")
 
     def _check_events(self):
+        """Checks and updates the objects positions and velocities.
+        Additionally checks if the simulation has reached maximum time. """
         for shape in self.shapes:
             shape.move()
         if self.render:
@@ -117,17 +136,21 @@ class Simulation:
             if self._check_time():
                 self.running = False
         self._check_boundaries()
-        self.forces._update_velocities(self.shapes, self.environment.tiles)
+        if self.environment:
+            self.environment.create(self.tile_size)
+        self.forces._update_velocities(self.shapes, self.environment.tiles[1])
 
     def _update_screen(self):
+        """Contains methods which update pygame window"""
         self.screen.fill(self.background_color)
         if self.environment:
-            self.environment.create(self.screen, self.tile_size)
+            self.environment.draw(self.screen)
         self._draw_grid()
         self._draw_shapes()
         pygame.display.update()
 
     def _check_boundaries(self):
+        """Checks and prevents the moving objects from escaping specified boundary"""
         for shape in self.shapes:
             dy = shape.y + shape.y_vel
             dx = shape.x + shape.x_vel
@@ -147,6 +170,7 @@ class Simulation:
                     shape.x_vel *= -1
 
     def _draw_grid(self):
+        """Renders a grid onto the screen"""
         dim = max(self.screen_height, self.screen_width)
         grid_range = dim // self.tile_size
         for line in range(0, grid_range):
@@ -174,4 +198,14 @@ class Simulation:
 
     @classmethod
     def set_background_color(cls, color):
+        """
+        Sets the background color of the rendered simulation.
+        
+        Parameters
+        ----------
+        color: tuple[int,int,int]
+            Used to specify the background color in RGB format (R,G,B)
+            Each value must be between 0-255.
+        """
+
         cls.background_color = color

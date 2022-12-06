@@ -6,20 +6,28 @@ import numpy as np
 
 class Forces:
     """
-    Object which calculates and updates the final velocity of an object
-    after forces are applied.
+    Forces object is used to calculate and update 
+    the final velocities of objects. Controls which 
+    type of forces exists in the simulation.
 
     Parameters
     ----------
-    collision: bool
+    collision: bool, default True
+        Enables Collision forces which update moving object velocities
+        upon collision with another movable object.
 
-    surface: bool
+    surface: bool, default True
+        Enables Collision forces which update moving object velocities
+        upon colliding with an immovable surface object.
 
-    gravity: bool
+    gravity: bool, default True
+        Enables gravity which updates the each moving object's y-velocity
 
-    magnetic: bool
+    magnetic: bool, default False
+        WIP TODO
 
-    rotation: bool
+    rotation: bool, default False
+        WIP TODO
     """
 
     def __init__(self,
@@ -59,7 +67,7 @@ class Forces:
                     (shape_1.x, shape_1.y), (shape_1.size, shape_1.size))
                 if rect1.colliderect(
                         shape_2.x, shape_2.y, shape_2.size, shape_2.size):
-                    self.collide(shape_1, shape_2)
+                    self.calculate_final_collision_velocities(shape_1, shape_2)
                     collisions += 1
 
             if shape_1.shape == shape_2.shape == "Circle":
@@ -68,23 +76,27 @@ class Forces:
                 speed = np.abs(shape_1.vel - shape_2.vel)
                 collide_speed = math.floor(
                     np.sqrt(speed[0]**2 + speed[1]**2))
-                max_dir = max(speed[0], speed[1])
-                if distance < (shape_1.radius + shape_2.radius + max_dir):
-                    self.collide(shape_1, shape_2)
+                max_comp_speed = max(speed[0], speed[1])
+                if distance < (shape_1.radius + shape_2.radius + max_comp_speed):
+                    self.calculate_final_collision_velocities(shape_1, shape_2)
                     collisions += 1
             # TODO - implement square-circle interaction
             if shape_1.shape != shape_2.shape:
                 raise ValueError("Multiple types of shapes not supported.")
         return collisions
 
-    def collide(self, shape_1, shape_2):
-        """"
+    def calculate_final_collision_velocities(self, shape_1, shape_2):
+        """
+        Calculates and updates the final velocities when 
+        two-movable objects directly collide 
+
         Parameters
         ----------
 
-        shape_1: :class: `Shape Object`
-
-        shape_2: :class: `Shape Object`
+        shape_1, shape2: :class: `Shape Object`
+            List of `Shape` objects which indicate each shape's 
+            individual properties and coordinates in 
+            the simulation environment.
 
         """
         # Adapted from https://en.wikipedia.org/wiki/Elastic_collision
@@ -184,8 +196,14 @@ class Forces:
         ----------
 
         shapes: list[:class:`Shape Object`]
+            List of `Shape` objects which indicate each shape's 
+            individual properties and coordinates in 
+            the simulation environment.
 
         surface: :class: `Environment Object`
+            Environment Obj, stores,updates and creates environmental 
+            information of additional collidable immovable objects
+
         """
 
         if self.collision:
