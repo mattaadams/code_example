@@ -13,7 +13,7 @@ screen_size = 300
 circles = []
 for i in range(5):
     circles.append(Circle(10.0, x=50 * (i + 1), y=250, x_vel=1,
-                   y_vel=3 * (i + 1), color=(0, 100, 0)))
+                          y_vel=3 * (i + 1), color=(0, 100, 0)))
 
 list_of_shapes = circles
 env_data = np.zeros((6, 6))
@@ -39,6 +39,6 @@ print(all_coordinates)
 
 
 def test_final_pos_in_bounds():
-    assert np.all(all_coordinates < screen_size-radius) == True
+    assert np.all(all_coordinates < screen_size - radius)
 
-    assert np.all(all_coordinates > radius) == True
+    assert np.all(all_coordinates > radius)
