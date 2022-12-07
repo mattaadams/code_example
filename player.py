@@ -4,7 +4,7 @@ import pygame
 
 class Player(Circle):
     """
-    A player which is derived from the Circle class. 
+    A player which is derived from the Circle class.
     The player class shares the same parameters of the circle,
     but is able to move freely by using the arrow keys.
 
@@ -15,7 +15,7 @@ class Player(Circle):
 
     def move(self):
         """Overrides the original method to allow
-           for the user to controlobjects movement with 
+           for the user to controlobjects movement with
            their computer keyboard."""
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:

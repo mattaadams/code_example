@@ -7,7 +7,7 @@ class Shape:
     """
     Base class for shapes; Implements base-properties
 
-    WARNING: This class should not be used directly. 
+    WARNING: This class should not be used directly.
     Use or create derived classes instead!
 
     Parameters:
