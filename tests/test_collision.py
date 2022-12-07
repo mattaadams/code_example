@@ -18,6 +18,6 @@ def test_vf1_collision_calc():
     """
     Check to see if the collision calculation answer
     is different...
-    It should be constant so a change in answer indicates 
+    It should be constant so a change in answer indicates
     a likely unintended change in the code."""
-    assert np.array_equal(vf1, vf1_saved) == True
+    assert np.array_equal(vf1, vf1_saved)

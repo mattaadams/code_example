@@ -21,12 +21,12 @@ class Simulation:
         Height of pygame display window
 
     shapes: list[:class: `Shape`]
-        List of `Shape` objects which indicate each shape's 
-        individual properties and coordinates in 
+        List of `Shape` objects which indicate each shape's
+        individual properties and coordinates in
         the simulation environment.
 
-    environment: :class: `Environment` 
-        Environment Obj, stores,updates and creates environmental 
+    environment: :class: `Environment`
+        Environment Obj, stores,updates and creates environmental
         information of additional collidable immovable objects
 
     forces: :class: `Forces`
@@ -86,7 +86,7 @@ class Simulation:
                 self._check_events()
                 if self.render:
                     self._update_screen()
-        except:
+        except BaseException:
             self.running = False
         return [shape.center for shape in self.shapes]
 
@@ -111,7 +111,7 @@ class Simulation:
         N_shape_types = len(set([shape.shape for shape in self.shapes]))
         assert N_shape_types == 1, "Multiple types of shapes not currently supported."
 
-        grid_shape = tuple(int(i/self.tile_size)
+        grid_shape = tuple(int(i / self.tile_size)
                            for i in self.screen.get_size())
         assert (self.environment.data.shape ==
                 grid_shape), f"Environment size should be {grid_shape}"
@@ -155,13 +155,17 @@ class Simulation:
             dy = shape.y + shape.y_vel
             dx = shape.x + shape.x_vel
             if shape.shape == "Circle":
-                if dy >= (self.screen_height - shape.radius) or dy <= shape.radius:
+                if dy >= (
+                        self.screen_height -
+                        shape.radius) or dy <= shape.radius:
                     shape.y_vel *= -1
                     shape.is_bouncing = False
                     if shape.y_vel != 0:
                         shape.is_bouncing = True
 
-                if dx >= (self.screen_width - shape.radius) or dx <= shape.radius:
+                if dx >= (
+                        self.screen_width -
+                        shape.radius) or dx <= shape.radius:
                     shape.x_vel *= -1
             elif shape.shape == "Square":
                 if dy >= (self.screen_height - shape.size) or dy <= 0:

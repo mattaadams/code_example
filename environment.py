@@ -43,11 +43,11 @@ class Environment:
                     color = BLACK
                     tile = (color, pygame.Rect((x, y), (tile_size, tile_size)))
                     self.tiles.append(tile)
-    def draw(self, screen: object):
-            if self.tiles:
-                for tile in self.tiles:
-                    pygame.draw.rect(screen, tile[0], tile[1])
 
+    def draw(self, screen: object):
+        if self.tiles:
+            for tile in self.tiles:
+                pygame.draw.rect(screen, tile[0], tile[1])
 
     def update(self):
         pass
