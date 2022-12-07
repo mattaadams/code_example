@@ -164,22 +164,22 @@ class Forces:
         """
         if surfaces:
             for surface in surfaces:
+                tile = surface[1]
                 for shape in shapes:
                     dy = shape.y + shape.y_vel
                     dx = shape.x + shape.x_vel
                     if shape.shape == "Rectangle":
-                        if surface.colliderect(
+                        if tile.colliderect(
                                 shape.x, dy, shape.size, shape.size):
                             shape.y_vel *= -1
-                        if surface.colliderect(
+                        if tile.colliderect(
                                 dx, shape.y, shape.size, shape.size):
                             shape.x_vel *= -1
                     if shape.shape == "Circle":
-                        if surface.colliderect(
+                        if tile.colliderect(
                                 shape.x, dy, shape.radius, shape.radius):
                             shape.y_vel *= -1
-                            shape.is_bouncing = False
-                        if surface.colliderect(
+                        if tile.colliderect(
                                 dx, shape.y, shape.radius, shape.radius):
                             if shape.y_vel < 0:
                                 shape.x_vel *= -1

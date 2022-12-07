@@ -17,9 +17,11 @@ for i in range(5):
 
 list_of_shapes = circles
 env_data = np.zeros((6, 6))
-env_data[1][2:4] = 1
+env_data[1] = 1
+env_data[1][2:5] = 0
 
 env1 = Environment(env_data)
+
 force1 = Forces(gravity=False)
 
 sim = Simulation(
